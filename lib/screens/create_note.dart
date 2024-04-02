@@ -12,8 +12,8 @@ class CreateNote extends StatefulWidget {
 
 class _CreateNoteState extends State<CreateNote> {
 
-  final titleController =  TextEditingController();
-  final bodyControlller = TextEditingController();
+TextEditingController titleController =  TextEditingController();
+  TextEditingController bodyControlller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +55,7 @@ class _CreateNoteState extends State<CreateNote> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-        if(titleController.text.isEmpty){
-          return;
-        }
-        if(bodyControlller.text.isEmpty){
-          return;
-        }
-
+       
         final note = Note(
            body: bodyControlller.text,
           title: titleController.text,

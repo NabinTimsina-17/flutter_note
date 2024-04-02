@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 10,),
                    Text(
-                    notes[index].title,
+                    notes[index].body,
                     style: const TextStyle(
                        fontSize: 20
                     ),
