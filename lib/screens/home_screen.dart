@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note/models/note_model.dart';
-import 'package:flutter_note/widgets/create_note.dart';
-import 'package:flutter_note/widgets/note_view.dart';
+
+import '../data/note_data.dart';
+import '../models/note_model.dart';
+import '../widgets/create_note.dart';
+import '../widgets/note_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,10 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Note> notes = [];
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NoteView(
-                    
-                    note_title: notes[index].title,
-                    note_description: notes[index].body,
-                    
+                    index: index,
+                    onDelete: () {
+                      setState(() {
+                        // Remove the note from the list
+                        notes.removeAt(index);
+                      });
+                    },
                   ),
                 ),
               );
@@ -45,14 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      notes[index].title,
+                      notes.isEmpty ? 'add a note' : notes[index].title,
                       style: const TextStyle(
                         fontSize: 20,
                       ),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      notes[index].body,
+                      notes.isEmpty ? 'add a note' : notes[index].body,
                       style: const TextStyle(
                         fontSize: 16,
                       ),
