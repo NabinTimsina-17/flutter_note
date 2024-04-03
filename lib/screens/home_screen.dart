@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note/models/note_model.dart';
-import 'package:flutter_note/screens/create_note.dart';
+import 'package:flutter_note/widgets/create_note.dart';
 import 'package:flutter_note/widgets/note_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Note> notes = List.empty(growable: true);
+  List<Note> notes = [];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: notes.length,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: (){
-              Navigator.push(context,MaterialPageRoute(
-                builder: (context)=> NoteView(
-                  note_title: notes[index].title,
-                  note_description: notes[index].body,)));
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NoteView(
+                    
+                    note_title: notes[index].title,
+                    note_description: notes[index].body,
+                    
+                  ),
+                ),
+              );
             },
             child: Card(
               child: Padding(
@@ -37,14 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       notes[index].title,
                       style: const TextStyle(
-                         fontSize: 20
+                        fontSize: 20,
                       ),
                     ),
-                    const SizedBox(height: 10,),
-                     Text(
+                    const SizedBox(height: 10),
+                    Text(
                       notes[index].body,
                       style: const TextStyle(
-                         fontSize: 20
+                        fontSize: 16,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -59,7 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) =>  CreateNote(onNewNoteCreated: onNewNoteCreated,)));
+            MaterialPageRoute(
+              builder: (context) => CreateNote(
+                onNewNoteCreated: onNewNoteCreated,
+              ),
+            ),
+          );
         },
         child: const Icon(Icons.add),
       ),
@@ -67,12 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onNewNoteCreated(Note note) {
-    notes.add(note);
-    setState(() {});
-  }
-
-  void onNewDeleted(int index) {
-    notes.removeAt(index);
-    setState(() {});
+    setState(() {
+      notes.add(note);
+    });
   }
 }
