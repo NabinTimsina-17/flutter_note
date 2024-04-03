@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../data/note_data.dart';
+
 class NoteView extends StatelessWidget {
   const NoteView({
     Key? key,
-    required this.note_title,
-    required this.note_description, required this.onNewDeleted, required this.index,
+    required this.index,
+    required this.onDelete,
   }) : super(key: key);
 
-  final String note_title;
-  final String note_description;
   final int index;
-
-  final Function (int) onNewDeleted;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +23,27 @@ class NoteView extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) {
-                  var note;
                   return AlertDialog(
-                    title: const Text("Delete This?"),
-                    content: Text("Note ${note.title} will be deleted"),
-
+                    title: const Text("Delete note?"),
+                    content: Text("Delete note with ${notes[index].title}?"),
                     actions: [
-                      TextButton(onPressed: (){
-                        Navigator.of(context).pop();
-                        onNewDeleted(index);
-                      },
-                       child: const Text("DELETE"),
-                       ),
-                       TextButton(onPressed: (){
-                        Navigator.of(context).pop();
-                       },
+                      TextButton(
+                        onPressed: () {
+                          // Remove item from the list
+                          onDelete();
+
+                          // Navigate back
+                          Navigator.pop(context);
+                           Navigator.pop(context);
+                        },
+                        child: const Text("DELETE"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                         child: const Text("CANCEL"),
-                        ),
+                      ),
                     ],
                   );
                 },
@@ -51,12 +54,12 @@ class NoteView extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              note_title,
+              notes[index].title,
               style: const TextStyle(
                 fontSize: 26,
               ),
@@ -65,7 +68,7 @@ class NoteView extends StatelessWidget {
               height: 10,
             ),
             Text(
-              note_description,
+              notes[index].body,
               style: const TextStyle(
                 fontSize: 18,
               ),
