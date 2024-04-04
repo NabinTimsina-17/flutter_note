@@ -73,6 +73,8 @@ class NoteView extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
+            
+             
           ],
         ),
       ),

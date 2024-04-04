@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/note_data.dart';
 import '../models/note_model.dart';
@@ -7,17 +8,36 @@ import '../widgets/note_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  String? localUser="";
+
+  void getLocalUser()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    localUser =  prefs.getString('username');
+
+
+  }
+
+  
+
+  @override
+  void initState() {
+    super.initState();
+
+    getLocalUser();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Flutter Notes"),
+        title:  Text(localUser!),
       ),
       body: ListView.builder(
         itemCount: notes.length,
@@ -60,6 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+
+                    const SizedBox(
+              height: 10,
+            ),
+             Text(
+              user,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
                   ],
                 ),
               ),

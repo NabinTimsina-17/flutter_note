@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note/data/note_data.dart';
 import 'package:flutter_note/models/note_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key, required this.onNewNoteCreated});
@@ -14,6 +16,15 @@ class _CreateNoteState extends State<CreateNote> {
 
 TextEditingController titleController =  TextEditingController();
   TextEditingController bodyControlller = TextEditingController();
+  TextEditingController userControlller = TextEditingController();
+
+  void setLocalUser(String user)async{
+ final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('username', user);
+
+         
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +59,17 @@ TextEditingController titleController =  TextEditingController();
                 border: InputBorder.none,
                 hintText: "Your Story"
                ),
+            ),
+
+              TextFormField(
+              controller: userControlller,
+              style: const TextStyle(
+                fontSize: 21
+               ),
+               decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: "Your user name"
+               ),
             )
           ],
         ),
@@ -61,7 +83,8 @@ TextEditingController titleController =  TextEditingController();
           title: titleController.text,
         
          );
-
+         user = userControlller.text;
+        setLocalUser(user);
          widget.onNewNoteCreated(note);
          Navigator.of(context).pop();
       },
