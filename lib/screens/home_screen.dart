@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  String? localUser="";
+  String? localUser='';
 
   void getLocalUser()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
